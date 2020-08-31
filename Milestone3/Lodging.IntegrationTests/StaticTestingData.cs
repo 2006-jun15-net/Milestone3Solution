@@ -317,6 +317,70 @@ namespace Lodging.IntegrationTests
 
       return update;
     }
+    /*
+    * <summary>
+    * Returns a list of [valid put urls, put content]
+    * </summary>
+    */
+    public static List<object[]> PutRequests()
+    {
+      var update = new List<object[]>();
+      for (int i = 1; i < IdIterations; i++)
+      {
+        update.Add(new object[]{ "api/Rental/" + i,  JObject.FromObject(new RentalModel() {
+            Status = "available",
+            Name = "Baguio House",
+            Occupancy = 6,
+            Price = 100.00,
+            Type = "home"
+        })
+                });
+        update.Add(new object[]{"api/Review/" + i, JObject.FromObject(new ReviewModel(){
+          Comment = "this place sucked",
+          DateCreated = DateTime.Now,
+          Rating = 3,
+
+         })
+                });
+        update.Add(new object[]{"api/Lodging/" + i, JObject.FromObject(new LodgingModel(){
+                  Name = "Updated Lodging name",
+          Location = new LocationModel()
+          {
+            Address = new AddressModel()
+            {
+              City = "Auburn",
+              Country = "United States",
+              PostalCode = "13021",
+              StateProvince = "NY",
+              Street = "30500 Co Rd 383",
+            },
+            Latitude = "0.00 N",
+            Longitude = "123.123 E",
+            Locale = "en"
+          },
+          Rentals = new List<RentalModel>()
+          {
+            new RentalModel() {
+              Name = "Rental Unit 1",
+              Occupancy = 1,
+              Type = "Cabin",
+              Status = "Booked",
+              Price = 100.0,
+            }
+          },
+          Reviews = new List<ReviewModel>() {
+            new ReviewModel() {
+              Comment = "This lodge is fantastic!",
+              DateCreated = DateTime.Now,
+              Rating = 9,
+            }
+          }
+         })
+         });
+      }
+
+      return update;
+    }
   }
 }
 
